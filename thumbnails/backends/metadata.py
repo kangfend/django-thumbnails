@@ -1,5 +1,3 @@
-from redis import StrictRedis
-
 from thumbnails import compat, conf
 from thumbnails.models import Source, ThumbnailMeta
 from thumbnails.utils import import_attribute
@@ -81,6 +79,8 @@ class DatabaseBackend(BaseBackend):
 class RedisBackend(BaseBackend):
 
     def __init__(self):
+        from redis import StrictRedis
+
         host = conf.METADATA.get('host', 'localhost')
         port = conf.METADATA.get('port', 6379)
         password = conf.METADATA.get('password', None)
