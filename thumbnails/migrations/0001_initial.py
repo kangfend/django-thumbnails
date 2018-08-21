@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
-from django.db import models, migrations
+from django.db import migrations, models
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
+
+    initial = True
 
     dependencies = [
     ]
@@ -13,27 +14,24 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Source',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(unique=True, max_length=255)),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=255, unique=True)),
             ],
-            options={
-            },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='ThumbnailMeta',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('size', models.CharField(max_length=64)),
-                ('name', models.CharField(unique=True, max_length=255)),
-                ('source', models.ForeignKey(related_name=b'thumbnails', to='thumbnails.Source')),
+                ('name', models.CharField(max_length=255, unique=True)),
+                ('source', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                             related_name='thumbnails', to='thumbnails.Source')),
             ],
-            options={
-            },
-            bases=(models.Model,),
         ),
         migrations.AlterUniqueTogether(
             name='thumbnailmeta',
-            unique_together=set([('source', 'size')]),
+            unique_together={('source', 'size')},
         ),
     ]
